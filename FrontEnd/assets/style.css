@@ -125,6 +125,54 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+
+
+/* BOUTONS FILTRAGE */
+.btn-filtrage{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 30px;
+}
+
+.btnFiltre{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	color: #1D6154;
+	background-color: white;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	padding: 10px;
+	min-width: 100px;
+	text-align: center;
+}
+
+.btnFiltre:hover{
+	color: #fff;
+	background-color: #1D6154;
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .gallery {
 	width: 100%;
 	display: grid;
