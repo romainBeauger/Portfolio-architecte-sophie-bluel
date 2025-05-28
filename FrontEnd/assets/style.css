@@ -29,7 +29,9 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	height: 100%;
 	line-height: 1;
+	background-color: #FFFEF8;
 }
 ol, ul {
 	list-style: none;
@@ -75,7 +77,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -95,9 +96,27 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
-	color: #B1663C;
+nav li a {
+	text-decoration: none;
+	color: #000;
 }
+
+nav li img {
+	height: 20px;
+	cursor: pointer;
+}
+
+li a:hover {
+	color: black;
+    font-weight: bold;
+	cursor: pointer;
+}
+
+.navLink.active{
+    color: black;
+    font-weight: bold;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -121,11 +140,30 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
+/* #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
-}
+} */
 
+
+/* Bouton Modale Modifier  */
+
+.projetBoutonModifier{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* gap: 10px; */
+}
+.boutonModifier i, .boutonModifier p {
+	display: inline;
+}
+.boutonModifier{
+	display: flex;
+	flex-direction: row; 
+	align-items: center;
+	margin-left: 15px;
+	gap: 6px;
+}
 
 
 /* BOUTONS FILTRAGE */
@@ -134,7 +172,7 @@ li:hover {
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-	margin-bottom: 30px;
+	margin: 30px;
 }
 
 .btnFiltre{
@@ -156,16 +194,10 @@ li:hover {
 	cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
-
-
+.btnFiltre.active{
+	color: #fff;
+	background-color: #1D6154;
+}
 
 
 
@@ -187,12 +219,12 @@ li:hover {
 }
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+#contact > *{
 	text-align: center;
-
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
@@ -203,16 +235,16 @@ margin: auto;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input{
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label{
 	margin: 2em 0 1em 0;
 }
-#contact textarea {
+#contact textarea{
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -226,11 +258,103 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover{
+	background-color: #0E2F28;
+}
+
+#login{
+	text-align: center;
+	color: #3D3D3D;
+	cursor: pointer;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;	
+}
+.main-login{
+	flex: 1;
 }
 
+
+/* FENETRE MODALE LOGIN */
+
+#modal > *{
+	text-align: center;
+}
+
+#modal h2{
+	margin-bottom: 20px;
+}
+
+#modal form {
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	margin: auto;
+}
+
+#modal input{
+	width: 100%;
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+
+#modal label{
+	text-align: left;
+	margin: 2em 0 1em 0;
+}
+
+.modal{
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.9); /* fond sombre */
+}
+
+.modal-content {
+	background-color: #FFFEF8;
+	margin: 10% auto;
+	padding: 30px;
+	height: auto;
+	width: 70%;
+	border-radius: 8px;
+	position: relative;
+}
+
+#modal .formModal input[type="submit"]{
+ width: 50%;
+}
+
+.modal-content form{
+	display: flex;
+	flex-direction: column;
+}
+
+.closeModal {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 44px;
+  cursor: pointer;
+}
+
+#textFooterModal{
+	position: absolute;
+	bottom: 10px;
+	right: 50px;
+	cursor: pointer;
+}
