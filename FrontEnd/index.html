@@ -41,6 +41,7 @@
 	</section> 
 
 	<section id="portfolio">
+
 		<div class="projetBoutonModifier">
 			<h2>Mes Projets</h2>
 			<div class="boutonModifier">
@@ -119,8 +120,65 @@
 			</footer>
 		</div>
   	</div>	
+
+<!-- MODALE SUPRESSION TRAVAUX -->
+
+<div id="modalTravaux" class="modal" style="display: none">
+  <div class="modal-content">
+
+    <span class="closeModalTravaux">&times;</span>
+	
+    <h3 id="titreModalTravaux">Galerie Photo</h3>
+
+    <div id="adminGallery"></div>
+	
+	<div id="separationLine"></div>
+
+    <div class="addPhotoBtn">Ajouter des photos </div>
+  </div>
+</div>
+
+<!-- MODALE AJOUT TRAVAUX -->
+<div id="modalAjoutTravaux" class="modalAjoutTravaux" >
+  <div class="modalAjoutTravaux-content">
+
+    <span class="closeModalAjoutTravaux">&times;</span>
+
+    <span class="LeftArrowModalAjoutTravaux"><i class="fa-solid fa-arrow-left fa-xl"></i></span>
+  
+	<h3 id="titreModalAjoutTravaux">Ajout Photo</h3>
+
+    <!-- Preview image ajoutée -->
+    <div id="imagePreviewContainer">
+      <img id="imagePreview" src="" alt="Preview"  />
+	  <div class="addPhotoBtnAjoutTravaux">
+		<label for="photoFile">+ Ajouter photo</label>
+		<input type="file" id="photoFile" name="image" accept="image/*">
+	  </div>
+    </div>
+
+
+    <form id="formAjoutTravail">
+      <label for="photoTitle">Titre</label>
+      <input type="text" id="photoTitle" name="title" required>
+
+      <label for="photoCategory">Catégorie</label>
+      <select id="photoCategory" name="category" required>
+        <option value="">-- Choisir une catégorie --</option>
+        <!-- options injectées en JS -->
+      </select>
+
+	  <div id="separationLine"></div>
+
+      <input type="submit" value="Valider">
+    </form>
+
+  </div>
+</div>
+
 	
 </main>
+
 
 <footer>
 	<nav>
@@ -129,6 +187,8 @@
 		</ul>
 	</nav>
 </footer>
+
+
 
 </body>
 </html>

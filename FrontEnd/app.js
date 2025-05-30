@@ -1,23 +1,28 @@
 //#region NAV
 
-const navLinks = document.querySelectorAll('.navLink');
+// const navLinks = document.querySelectorAll('.navLink');
 
-navLinks.forEach(link => { 
+// navLinks.forEach(link => { 
 
-    link.addEventListener('click', e => {
+//     link.addEventListener('click', e => {
 
-        navLinks.forEach(l => l.classList.remove('active'));
+//         navLinks.forEach(l => l.classList.remove('active'));
 
-        e.currentTarget.classList.add('active');      
-    })
-})
+//         e.currentTarget.classList.add('active');      
+//     })
+// })
 
 //#endregion
 
 
 //#region Récupérer les travaux depuis l'API 
 
+// Utilisation de la gallery si présente 
+const galleryTravaux = document.querySelector('.gallery');
+
 async function recupererTravaux(categoryId = null) {  
+
+  console.log("Appel de recupererTravaux avec catégorie :", categoryId);
         
     const requete = await fetch("http://localhost:5678/api/works");
     const reponse = await requete.json();  
@@ -56,8 +61,7 @@ async function recupererTravaux(categoryId = null) {
 
 //#region Filtres
 
-// Utilisation de la gallery si présente 
-const galleryTravaux = document.querySelector('.gallery');
+
 // Récupération des boutons de filtrage
 const btnFiltreTous = document.querySelector('#btnFiltreTous');
 const btnFiltreObjets = document.querySelector('#btnFiltreObjets');
@@ -69,9 +73,7 @@ if(galleryTravaux){
     
     recupererTravaux();
 
-    // GESTION DES FILTRES
-
-    
+    // GESTION DES FILTRES    
 
     // Fonction permettant d'enlever puis remettre la classe active aux boutons de notre choix
 
@@ -109,6 +111,7 @@ if(galleryTravaux){
 //#endregion
 
 
+
 //#region Modale Login
 
 const modal = document.querySelector('#modal');
@@ -126,7 +129,7 @@ openBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
 // La div contenant le bouton modifier doit disparaitre
         divBoutonModifier.style.display = 'none';
 
-// Ouvrir la modale
+// Ouvrir la modale login admin 
 openBtn.addEventListener('click', () => {  
 
     if(isLoggedIn){
@@ -152,12 +155,12 @@ openBtn.addEventListener('click', () => {
     }
 });
 
-// Fermer la modale
+// Fermer la modale login admin
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
-// Fermer la modale si on click à l'extérieur
+// Fermer la modale login admin si on click à l'extérieur
 window.addEventListener('click', (event) => {
     if (event.target == modal) {
     modal.style.display = 'none';
@@ -216,3 +219,198 @@ submitModalBtn.addEventListener('click', (event) => {
 //#endregion
 
 
+
+//#region Modale Suppression de travaux
+
+const divBtnModifierTravaux = document.querySelector('.boutonModifier');
+const adminGallery = document.querySelector('#adminGallery');
+const modalTravaux = document.querySelector('#modalTravaux');
+const closeModalTravaux = document.querySelector('.closeModalTravaux');
+
+async function afficherTravauxAdmin() {
+  const response = await fetch("http://localhost:5678/api/works");
+  const travaux = await response.json();
+
+  adminGallery.innerHTML = '';
+
+  travaux.forEach(travail => {
+    const figure = document.createElement('figure');
+
+    const img = document.createElement('img');
+    img.src = travail.imageUrl;
+
+    // Création de l'icône corbeille
+    const deleteBtn = document.createElement('i');
+    //Ajout classe font awesome
+    deleteBtn.classList.add('fa-solid', 'fa-trash-can', 'delete-icon');
+
+    // Ajout du listener au moment de la création
+
+    deleteBtn.addEventListener('click', async () => {
+      const confirmation = confirm("Voulez-vous vraiment supprimer ce travail ?");
+      if (!confirmation) return;
+
+      const token = localStorage.getItem('token');
+
+      try {
+        const res = await fetch(`http://localhost:5678/api/works/${travail.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (res.ok) {
+          // Supprimer visuellement la figure de la galerie
+          figure.remove();
+        } else {
+          alert("Échec de la suppression.");
+        }
+      } catch (error) {
+        console.error("Erreur suppression :", error);
+      }
+    });
+
+    figure.appendChild(img);
+    figure.appendChild(deleteBtn);
+    adminGallery.appendChild(figure);
+  });
+}
+
+// Affiche la modale travaux quand on click sur le bouton modifier
+divBtnModifierTravaux.addEventListener('click', () => {
+    document.querySelector('#modalTravaux').style.display = 'block';
+    afficherTravauxAdmin();
+});
+
+// Fermer la modale travaux quand on click en dehors
+window.addEventListener('click', (event) => {
+  if (event.target === modalTravaux) {
+    modalTravaux.style.display = 'none';
+    
+    // Si on ferme la modale en cliquant dans l'overlay on relance la recupération de travaux
+    recupererTravaux();
+  }
+
+});
+
+// Fermer la modale suppresion travaux quand on click sur la croix
+closeModalTravaux.addEventListener('click', () => {
+  modalTravaux.style.display = 'none';
+
+  // Si on ferme la modale avec la croix on relance la recupération de travaux
+  recupererTravaux();
+});
+
+
+//#endregion
+
+
+
+//#region Modale Ajout de Travaux
+
+async function chargerCategories() {
+  const res = await fetch("http://localhost:5678/api/categories");
+  const categories = await res.json();
+
+  const select = document.getElementById("photoCategory");
+  categories.forEach(categorie => {
+    const option = document.createElement("option");
+    option.value = categorie.id;
+    option.textContent = categorie.name;
+    select.appendChild(option);
+  });
+}
+
+
+const ajoutPhotoBtn = document.querySelector('.addPhotoBtn');
+const closeModalAjoutTravaux = document.querySelector('.closeModalAjoutTravaux');
+const LeftArrowModalAjoutTravaux = document.querySelector('.LeftArrowModalAjoutTravaux');
+const divModalAjoutTravaux = document.querySelector('.modalAjoutTravaux');
+const inputFile = document.getElementById('photoFile');
+const previewImage = document.getElementById('imagePreview');
+const formAjout = document.getElementById('formAjoutTravail');
+
+ajoutPhotoBtn.addEventListener('click', () => {
+    modalTravaux.style.display = 'none';
+    divModalAjoutTravaux.style.display = 'block';
+    chargerCategories();
+});
+
+closeModalAjoutTravaux.addEventListener('click', () => {
+    divModalAjoutTravaux.style.display = 'none';
+    modalTravaux.style.display = 'none';
+});
+
+// Si on click sur la flèche arriere on revient sur la modale suppresion travaux
+LeftArrowModalAjoutTravaux.addEventListener('click', () => {
+    divModalAjoutTravaux.style.display = 'none';
+    modalTravaux.style.display = 'block';
+});
+
+// Fermer la modale ajout travaux quand on click en dehors
+window.addEventListener('click', (event) => {
+  if (event.target === divModalAjoutTravaux) {
+    divModalAjoutTravaux.style.display = 'none';
+  }
+});
+
+inputFile.addEventListener('change', () => {
+  const file = inputFile.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      previewImage.src = reader.result;
+      previewImage.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+formAjout.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const file = inputFile.files[0];
+  const title = document.getElementById('photoTitle').value;
+  const category = document.getElementById('photoCategory').value;
+
+  if (!file || !title || !category) {
+    alert("Tous les champs sont obligatoires");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('title', title);
+  formData.append('category', category);
+
+  const token = localStorage.getItem('token');
+
+  try {
+    const res = await fetch("http://localhost:5678/api/works", {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (res.ok) {
+      alert("Travail ajouté !");
+      formAjout.reset();
+      previewImage.src = "";
+      previewImage.style.display = 'none';
+      divModalAjoutTravaux.style.display = 'none';
+      modalTravaux.style.display = 'block';
+      afficherTravauxAdmin(); // pour actualiser
+    } else {
+      alert("Erreur lors de l'ajout");
+    }
+  } catch (err) {
+    console.error("Erreur:", err);
+    alert("Une erreur est survenue");
+  }
+});
+
+
+//#endregion

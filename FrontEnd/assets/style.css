@@ -146,24 +146,7 @@ li a:hover {
 } */
 
 
-/* Bouton Modale Modifier  */
 
-.projetBoutonModifier{
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/* gap: 10px; */
-}
-.boutonModifier i, .boutonModifier p {
-	display: inline;
-}
-.boutonModifier{
-	display: flex;
-	flex-direction: row; 
-	align-items: center;
-	margin-left: 15px;
-	gap: 6px;
-}
 
 
 /* BOUTONS FILTRAGE */
@@ -287,8 +270,12 @@ footer nav ul {
 	text-align: center;
 }
 
-#modal h2{
-	margin-bottom: 20px;
+.closeModal {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  font-size: 40px;
+  cursor: pointer;
 }
 
 #modal form {
@@ -339,16 +326,44 @@ footer nav ul {
  width: 50%;
 }
 
-.modal-content form{
+/* Bouton Modale Modifier  */
+
+.projetBoutonModifier{
 	display: flex;
-	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 
-.closeModal {
+.projetBoutonModifier:hover{
+	color: #666363;	
+}
+
+.boutonModifier i, .boutonModifier p {
+	display: inline;
+}
+
+.boutonModifier{
+	display: flex;
+	flex-direction: row; 
+	align-items: center;
+	margin-left: 15px;
+	gap: 6px;
+}
+
+#titreModalTravaux{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+	font-size: 32px;
+	font-weight: 500;
+}
+
+.closeModalTravaux {
   position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 44px;
+  right: 30px;
+  top: 30px;
+  font-size: 50px;
   cursor: pointer;
 }
 
@@ -357,4 +372,246 @@ footer nav ul {
 	bottom: 10px;
 	right: 50px;
 	cursor: pointer;
+}
+
+
+#modalTravaux .modal-content {
+  background-color: #FFFEF8;
+  margin: 10% auto;
+  padding: 50px;
+  height: auto;
+  width: 50%;
+  height: 63%;
+  border-radius: 8px;
+  position: relative;
+}
+
+#adminGallery {
+  display: grid;
+  grid-template-columns: repeat(5, 150px);
+  gap: 10px;
+  justify-content: center;
+}
+
+#adminGallery figure {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.2; /* facultatif mais utile pour garder la forme */
+  position: relative;
+}
+
+#adminGallery img {
+  width: 100% ;
+  height: 100% ;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  margin: auto;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 16px;
+  color: white;
+  background-color: black;
+  border-radius: 30%;
+  padding: 5px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.delete-icon:hover{
+  background-color: rgb(89, 87, 87);
+
+}
+
+#separationLine{
+	margin: auto;
+	width: 92%;
+    border-top: 2px solid rgba(97, 95, 95, 0.382);
+	margin: 50px auto;
+}
+
+.addPhotoBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1D6154;
+  color: white;
+  border-radius: 60px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 30%;
+  height: 36px;
+  font-size: 20px;
+  margin: auto;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.addPhotoBtn:hover {
+  background-color: #0E2F28;
+}
+
+
+
+
+/* MODALE AJOUT TRAVAUX */
+
+.modalAjoutTravaux {
+  display: none; /* visible via JS */
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.8); /* fond sombre */
+}
+
+.modalAjoutTravaux-content {
+  background-color: #FFFEF8;
+  margin: 5% auto;
+  padding: 40px;
+  width: 50%;
+  height: 63%;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre de la modale */
+#titreModalAjoutTravaux {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #1D6154;
+}
+
+/* Bouton de fermeture */
+.closeModalAjoutTravaux {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 30px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Preview image */
+#imagePreviewContainer {
+  height: 30%;
+  width: 80%;
+  border: 1px solid black;
+  display: block; /* visible après upload */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin: auto;
+}
+
+#imagePreview {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* Bouton Ajouter une photo */
+.addPhotoBtnAjoutTravaux {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1D6154;
+  color: white;
+  border-radius: 60px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 30%;
+  height: 36px;
+  font-size: 20px;
+  margin: auto;
+  top: 130px;
+  position: relative;
+  margin-bottom: 20px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.addPhotoBtnAjoutTravaux input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.addPhotoBtnAjoutTravaux label {
+  padding: 10px 25px;
+  background-color: #1D6154;
+  color: white;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addPhotoBtnAjoutTravaux label:hover {
+  background-color: #0E2F28;
+}
+
+/* Formulaire titre + catégorie */
+#formAjoutTravail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+  padding: 0 80px;
+}
+
+#formAjoutTravail label {
+  font-weight: 600;
+  color: #3D3D3D;
+}
+
+#formAjoutTravail input[type="text"],
+#formAjoutTravail select {
+  height: 60px;
+  padding: 0 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Bouton valider */
+#formAjoutTravail input[type="submit"] {
+  text-align: center;       /* centre le texte */
+  display: inline-block;    /* ou block si besoin */
+  padding: 20px 40px;       /* espace intérieur */
+  margin: 20px auto;        /* centre le bouton lui-même */
+  background-color: #1D6154;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#formAjoutTravail input[type="submit"]:hover {
+  background-color: #0E2F28;
+}
+
+.LeftArrowModalAjoutTravaux{
+	cursor: pointer;
+}
+
+#formAjoutTravail #separationLine{
+	width: 100%;
 }
