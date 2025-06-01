@@ -120,6 +120,8 @@ const submitModalBtn = document.querySelector('#submitModalBtn');
 const loginModal = document.querySelector('.loginModal');
 const divBoutonModifier = document.querySelector('.boutonModifier');
 const afficheBtnFiltrage = document.querySelector('.btn-filtrage');
+const navLinkProjetsLogin = document.querySelector('#navLinkProjetsLogin');
+const navLinkContactLogin = document.querySelector('#navLinkContactLogin');
 let isLoggedIn = !!localStorage.getItem('token'); // double inversion renvoi true si token présent et false si non présent
 
 // Au premier chargement de la page
@@ -167,6 +169,18 @@ document.addEventListener("DOMContentLoaded", () => {
     loginModal.style.fontWeight = "bold";
   }
   });
+});
+
+// Click sur Projets dans la modale Login
+navLinkProjetsLogin .addEventListener('click', () => {
+  // On ferme la modale au click pour permettre d'aller sur l'ancre Mes Projets
+    modal.style.display = 'none';
+});
+
+// Click sur Projets dans la modale Login
+navLinkContactLogin .addEventListener('click', () => {
+  // On ferme la modale au click pour permettre d'aller sur l'ancre Contact
+    modal.style.display = 'none';
 });
 
 
