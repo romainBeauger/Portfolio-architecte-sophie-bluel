@@ -132,54 +132,43 @@ document.addEventListener("DOMContentLoaded", () => {
   if (token) {
     // Utilisateur connecté : on montre "Logout" et on masque les filtres
     loginBtn.textContent = "Logout";
-    afficheBtnFiltrage.style.visibility = "hidden";
+    afficheBtnFiltrage.style.display = "none";
   } else {
     // Utilisateur non connecté : on montre "Login" on affiche les filtres et bouton tous avec class active pour le fond vert
     loginBtn.textContent = "Login";
-    afficheBtnFiltrage.style.deleteBtn = "none";
+    afficheBtnFiltrage.style.display = "flex";
     divBoutonModifier.style.display = "none";
     activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
   }
 
   // Gestion du clic sur login/logout
   loginBtn.addEventListener("click", (e) => {
+
     e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
     if (token) {
-      // Déconnexion
-      localStorage.removeItem("token");
-      window.location.reload(); // rafraîchir proprement
-    } else {
-      // Afficher modale login ici
-      document.getElementById("modal").style.display = "block";
-    }
+    // Déconnexion
+    localStorage.removeItem("token");
+    isLoggedIn = false;
+    loginBtn.textContent = "Login";
+    afficheBtnFiltrage.style.display = "flex";
+    // Réaffiche individuellement tous les boutons de filtre
+    TousLesBoutonsFiltre.forEach(element => {
+      element.style.display = 'inline-block';
+    });
+    divBoutonModifier.style.display = "none";
+    activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
+    recupererTravaux();
+  } else {
+    // Affichage modale login
+    modal.style.display = "block";
+    loginModal.style.fontWeight = "bold";
+  }
   });
 });
 
-// Ouvrir la modale login admin 
-openBtn.addEventListener('click', () => {  
-
-    if(isLoggedIn){
-        // On veut se déconnecter car on clique sur Logout
-
-        // On supprimer le token du localStorage
-        localStorage.removeItem('token');
-        // Plus loggé donc isLoggedIn = false
-        isLoggedIn = false;
-        // On réécrit login sur le lien
-        openBtn.textContent = 'Login';
-         // Les boutons de filtres doivent être visible
-        TousLesBoutonsFiltre.forEach(element => {
-            element.style.display = 'block';
-        }); 
-        // La div contenant le bouton modifier doit disparaitre
-        divBoutonModifier.style.display = 'none';
-
-        console.log(`Déconnecté avec succès`);        
-    } else {
-        modal.style.display = 'block';
-        loginModal.style.fontWeight = 'bold';
-    }
-});
 
 // Fermer la modale login admin
 closeBtn.addEventListener('click', () => {
