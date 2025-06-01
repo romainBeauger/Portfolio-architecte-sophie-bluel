@@ -155,7 +155,7 @@ li a:hover {
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
-	margin: 30px;
+	margin-top: 30px;
 }
 
 .btnFiltre{
@@ -189,6 +189,7 @@ li a:hover {
 
 
 .gallery {
+	margin-top: 30px;
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -198,7 +199,8 @@ li a:hover {
 
 .gallery img {
 	width: 100%;
-
+	height: 100%;
+	object-fit: cover;
 }
 #contact {
 	width: 50%;
@@ -272,10 +274,14 @@ footer nav ul {
 
 .closeModal {
   position: absolute;
-  right: 30px;
-  top: 30px;
+  right: 20px;
+  top: 20px;
   font-size: 40px;
   cursor: pointer;
+}
+
+.closeModal:hover{
+	color: rgba(0, 0, 0, 0.498);
 }
 
 #modal form {
@@ -351,6 +357,8 @@ footer nav ul {
 	gap: 6px;
 }
 
+/* MODALE SUPPRESSION TRAVAUX */
+
 #titreModalTravaux{
 	display: flex;
 	justify-content: center;
@@ -361,10 +369,14 @@ footer nav ul {
 
 .closeModalTravaux {
   position: absolute;
-  right: 30px;
-  top: 30px;
-  font-size: 50px;
+  right: 20px;
+  top: 20px;
+  font-size: 40px;
   cursor: pointer;
+}
+
+.closeModalTravaux:hover{
+	color: rgba(0, 0, 0, 0.498);
 }
 
 #textFooterModal{
@@ -377,18 +389,21 @@ footer nav ul {
 
 #modalTravaux .modal-content {
   background-color: #FFFEF8;
-  margin: 10% auto;
-  padding: 50px;
-  height: auto;
-  width: 50%;
-  height: 63%;
-  border-radius: 8px;
   position: relative;
+  margin: auto;
+  margin-top: 3vh;
+  padding: 30px 20px;
+  width: 60%;
+  max-width: 90vh;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 #adminGallery {
   display: grid;
-  grid-template-columns: repeat(5, 150px);
+  grid-template-columns: repeat(5,150px);
   gap: 10px;
   justify-content: center;
 }
@@ -429,7 +444,7 @@ footer nav ul {
 
 #separationLine{
 	margin: auto;
-	width: 92%;
+	width: 90%;
     border-top: 2px solid rgba(97, 95, 95, 0.382);
 	margin: 50px auto;
 }
@@ -467,20 +482,23 @@ footer nav ul {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.8); /* fond sombre */
 }
 
 .modalAjoutTravaux-content {
   background-color: #FFFEF8;
-  margin: 5% auto;
-  padding: 40px;
+  margin: auto;
+  margin-top: 3vh;
+  padding: 30px 20px;
   width: 50%;
-  height: 63%;
+  max-width: 60vh;
+  max-height: 70vh;
+  overflow-y: auto;
   border-radius: 8px;
-  position: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 /* Titre de la modale */
@@ -488,7 +506,7 @@ footer nav ul {
   text-align: center;
   font-size: 24px;
   margin-bottom: 30px;
-  color: #1D6154;
+  color: #000000;
 }
 
 /* Bouton de fermeture */
@@ -496,28 +514,72 @@ footer nav ul {
   position: absolute;
   right: 20px;
   top: 20px;
-  font-size: 30px;
+  font-size: 40px;
   color: #333;
   cursor: pointer;
 }
 
+.closeModalAjoutTravaux:hover{
+	color: rgba(0, 0, 0, 0.498);
+}
+
 /* Preview image */
 #imagePreviewContainer {
-  height: 30%;
-  width: 80%;
-  border: 1px solid black;
-  display: block; /* visible après upload */
+  background-color: #E8F1F6;
+  width: 85%; /* taille fixe */
+  height: 280px; /* fixe ou max-height */
+  border: 1px solid rgba(0, 0, 0, 0);
+  display: flex; /* pour centrer */
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  margin: auto;
+  flex-direction: column;
+  margin: 0 auto 20px auto;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden; /* cache les débordements */
 }
 
 #imagePreview {
-  max-width: 100%;
-  max-height: 150px;
-  border-radius: 8px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  border-radius: 8px;
+  display: none;
+}
+
+.reset-image {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 20px;
+  /* background-color: white; */
+  color: rgb(102, 100, 100);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  display: none; /* caché par défaut */
+  z-index: 2;
+}
+
+.reset-image:hover {
+	color: #3d3b3b;
+}
+
+/* Logo Picture */
+#logoImage{
+	display: flex;
+	justify-content: center;
+	color: rgba(128, 128, 128, 0.341);
+	font-size: 100px;
+	margin: 20px 0 10px 0;
+}
+
+/* Texte bouton ajout photo */
+#textAjoutPhoto{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 40px;
+	color: #444444;
 }
 
 /* Bouton Ajouter une photo */
@@ -526,7 +588,7 @@ footer nav ul {
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  background-color: #1D6154;
+  background-color: #CBD6DC;
   color: white;
   border-radius: 60px;
   font-weight: 500;
@@ -535,10 +597,6 @@ footer nav ul {
   height: 36px;
   font-size: 20px;
   margin: auto;
-  top: 130px;
-  position: relative;
-  margin-bottom: 20px;
-  transition: background-color 0.2s ease-in-out;
 }
 
 .addPhotoBtnAjoutTravaux input[type="file"] {
@@ -553,8 +611,8 @@ footer nav ul {
 
 .addPhotoBtnAjoutTravaux label {
   padding: 10px 25px;
-  background-color: #1D6154;
-  color: white;
+  background-color: #CBD6DC;
+  color: #306685;
   border-radius: 60px;
   font-size: 16px;
   font-weight: 600;
@@ -610,6 +668,11 @@ footer nav ul {
 
 .LeftArrowModalAjoutTravaux{
 	cursor: pointer;
+}
+
+
+.LeftArrowModalAjoutTravaux:hover{
+	color: rgba(0, 0, 0, 0.498);
 }
 
 #formAjoutTravail #separationLine{

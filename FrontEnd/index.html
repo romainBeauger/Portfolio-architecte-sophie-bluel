@@ -53,12 +53,12 @@
 		</div>
 
 		<!-- Boutons filtrage -->
-		 <div class="btn-filtrage">
-			<div class="btnFiltre" id="btnFiltreTous">Tous</div>
-			<div class="btnFiltre" id="btnFiltreObjets">Objets</div>
-			<div class="btnFiltre" id="btnFiltreAppartements">Appartements</div>
-			<div class="btnFiltre" id="btnFiltreHotelsRestaurants">Hotels & restaurants</div>
-		 </div>
+			<div class="btn-filtrage">
+				<div class="btnFiltre" id="btnFiltreTous">Tous</div>
+				<div class="btnFiltre" id="btnFiltreObjets">Objets</div>
+				<div class="btnFiltre" id="btnFiltreAppartements">Appartements</div>
+				<div class="btnFiltre" id="btnFiltreHotelsRestaurants">Hotels & restaurants</div>
+			 </div>
 
 		<div class="gallery">			
 		</div>
@@ -144,17 +144,28 @@
 
     <span class="closeModalAjoutTravaux">&times;</span>
 
-    <span class="LeftArrowModalAjoutTravaux"><i class="fa-solid fa-arrow-left fa-xl"></i></span>
+    <span class="LeftArrowModalAjoutTravaux"><i class="fa-solid fa-arrow-left fa-2xl"></i></span>
   
 	<h3 id="titreModalAjoutTravaux">Ajout Photo</h3>
 
     <!-- Preview image ajoutée -->
     <div id="imagePreviewContainer">
-      <img id="imagePreview" src="" alt="Preview"  />
+		
+	  <img id="imagePreview" />
+
+	   <span id="resetImageBtn" class="reset-image">
+   		  <i class="fa-solid fa-arrow-rotate-right fa-2xl"></i>
+  		</span>
+
+      <i id="logoImage" class="fa-regular fa-image"></i>
+
 	  <div class="addPhotoBtnAjoutTravaux">
 		<label for="photoFile">+ Ajouter photo</label>
 		<input type="file" id="photoFile" name="image" accept="image/*">
 	  </div>
+
+	  <p id="textAjoutPhoto">jpg, png : 4mo max</p>
+
     </div>
 
 

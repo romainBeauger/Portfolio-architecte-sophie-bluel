@@ -111,7 +111,6 @@ if(galleryTravaux){
 //#endregion
 
 
-
 //#region Modale Login
 
 const modal = document.querySelector('#modal');
@@ -119,15 +118,42 @@ const openBtn = document.querySelector('.openModal');
 const closeBtn = document.querySelector('.closeModal');
 const submitModalBtn = document.querySelector('#submitModalBtn');
 const loginModal = document.querySelector('.loginModal');
-let isLoggedIn = !!localStorage.getItem('token'); // double inversion renvoi true si token présent et false si non présent
 const divBoutonModifier = document.querySelector('.boutonModifier');
+const afficheBtnFiltrage = document.querySelector('.btn-filtrage');
+let isLoggedIn = !!localStorage.getItem('token'); // double inversion renvoi true si token présent et false si non présent
 
-// Met à jour le texte du bouton Login / Logout en fonction de isLoggedIn
-openBtn.textContent = isLoggedIn ? 'Logout' : 'Login';
+// Au premier chargement de la page
+document.addEventListener("DOMContentLoaded", () => {
 
-// Le bouton Modifier ne doit pas apparaitre au premier chargement
-// La div contenant le bouton modifier doit disparaitre
-        divBoutonModifier.style.display = 'none';
+  const token = localStorage.getItem("token");
+
+  const loginBtn = document.querySelector('.openModal');
+
+  if (token) {
+    // Utilisateur connecté : on montre "Logout" et on masque les filtres
+    loginBtn.textContent = "Logout";
+    afficheBtnFiltrage.style.visibility = "hidden";
+  } else {
+    // Utilisateur non connecté : on montre "Login" on affiche les filtres et bouton tous avec class active pour le fond vert
+    loginBtn.textContent = "Login";
+    afficheBtnFiltrage.style.deleteBtn = "none";
+    divBoutonModifier.style.display = "none";
+    activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
+  }
+
+  // Gestion du clic sur login/logout
+  loginBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (token) {
+      // Déconnexion
+      localStorage.removeItem("token");
+      window.location.reload(); // rafraîchir proprement
+    } else {
+      // Afficher modale login ici
+      document.getElementById("modal").style.display = "block";
+    }
+  });
+});
 
 // Ouvrir la modale login admin 
 openBtn.addEventListener('click', () => {  
@@ -219,7 +245,6 @@ submitModalBtn.addEventListener('click', (event) => {
 //#endregion
 
 
-
 //#region Modale Suppression de travaux
 
 const divBtnModifierTravaux = document.querySelector('.boutonModifier');
@@ -306,34 +331,67 @@ closeModalTravaux.addEventListener('click', () => {
 //#endregion
 
 
-
 //#region Modale Ajout de Travaux
-
-async function chargerCategories() {
-  const res = await fetch("http://localhost:5678/api/categories");
-  const categories = await res.json();
-
-  const select = document.getElementById("photoCategory");
-  categories.forEach(categorie => {
-    const option = document.createElement("option");
-    option.value = categorie.id;
-    option.textContent = categorie.name;
-    select.appendChild(option);
-  });
-}
-
 
 const ajoutPhotoBtn = document.querySelector('.addPhotoBtn');
 const closeModalAjoutTravaux = document.querySelector('.closeModalAjoutTravaux');
 const LeftArrowModalAjoutTravaux = document.querySelector('.LeftArrowModalAjoutTravaux');
 const divModalAjoutTravaux = document.querySelector('.modalAjoutTravaux');
 const inputFile = document.getElementById('photoFile');
+const inputTextPhoto = document.getElementById('photoTitle');
 const previewImage = document.getElementById('imagePreview');
 const formAjout = document.getElementById('formAjoutTravail');
+const logoImage = document.querySelector('#logoImage');
+const resetImageBtn = document.getElementById("resetImageBtn");
+const divAddPhotoBtnAjoutTravaux = document.querySelector('.addPhotoBtnAjoutTravaux');
+const textAjoutPhoto = document.querySelector('#textAjoutPhoto');
+
+async function chargerCategories() {
+  const select = document.getElementById("photoCategory");
+
+  // On vide complètement les catégories et le champ titre 
+  select.innerHTML = "";
+  inputTextPhoto.value = "";
+
+  // On ajoute l'option par défaut
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "-- Choisir une catégorie --";
+  select.appendChild(defaultOption);
+
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    if (!response.ok) {
+      throw new Error("Erreur lors du chargement des catégories");
+    }
+
+    const categories = await response.json();
+
+    categories.forEach(categorie => {
+      const option = document.createElement("option");
+      option.value = categorie.id;
+      option.textContent = categorie.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Erreur dans chargerCategories :", error);
+    alert("Impossible de charger les catégories.");
+  }
+}
+
+
+
 
 ajoutPhotoBtn.addEventListener('click', () => {
     modalTravaux.style.display = 'none';
     divModalAjoutTravaux.style.display = 'block';
+    // On supprime aussi le preview image au cas ou on fasse retour arriere avec une image déjà chargée précédemment
+    previewImage.style.display = 'none';
+    // On affiche le logo image, le bouton et le texte quand la photo est chargée
+      logoImage.style.display = 'flex';
+      divAddPhotoBtnAjoutTravaux.style.display = 'flex';
+      textAjoutPhoto.style.display = 'flex';
+
     chargerCategories();
 });
 
@@ -362,9 +420,32 @@ inputFile.addEventListener('change', () => {
     reader.onload = () => {
       previewImage.src = reader.result;
       previewImage.style.display = 'block';
+      resetImageBtn.style.display = 'block';
+      // On masque le logo image, le bouton et le texte quand la photo est chargée
+      logoImage.style.display = 'none';
+      divAddPhotoBtnAjoutTravaux.style.display = 'none';
+      textAjoutPhoto.style.display = 'none';
     };
     reader.readAsDataURL(file);
   }
+});
+
+resetImageBtn.addEventListener('click', () => {
+  // Réinitialise le champ file
+  inputFile.value = "";
+
+  // Masque la preview et réaffiche l’icône
+  previewImage.src = "";
+  previewImage.style.display = 'none';
+  resetImageBtn.style.display = 'none';
+  // On affiche le logo image, le bouton et le texte quand la photo est chargée
+  logoImage.style.display = 'flex';
+  divAddPhotoBtnAjoutTravaux.style.display = 'flex';
+  textAjoutPhoto.style.display = 'flex';
+
+  // On reset l'input et les catégories
+  chargerCategories();
+
 });
 
 formAjout.addEventListener('submit', async (e) => {
@@ -402,6 +483,10 @@ formAjout.addEventListener('submit', async (e) => {
       previewImage.style.display = 'none';
       divModalAjoutTravaux.style.display = 'none';
       modalTravaux.style.display = 'block';
+
+
+
+
       afficherTravauxAdmin(); // pour actualiser
     } else {
       alert("Erreur lors de l'ajout");
