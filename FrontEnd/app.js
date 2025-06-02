@@ -1,16 +1,8 @@
-//#region NAV
+//#region API URL RENDER OU LOCALHOST
 
-// const navLinks = document.querySelectorAll('.navLink');
-
-// navLinks.forEach(link => { 
-
-//     link.addEventListener('click', e => {
-
-//         navLinks.forEach(l => l.classList.remove('active'));
-
-//         e.currentTarget.classList.add('active');      
-//     })
-// })
+const API_URL = window.location.hostname.includes('github.io')
+  ? "https://portfolio-architecte-sophie-bluel-h7hp.onrender.com"
+  : "http://localhost:5678";
 
 //#endregion
 
@@ -24,7 +16,7 @@ async function recupererTravaux(categoryId = null) {
 
   console.log("Appel de recupererTravaux avec catégorie :", categoryId);
         
-    const requete = await fetch("http://localhost:5678/api/works");
+    const requete = await fetch(`${API_URL}/api/works`);
     const reponse = await requete.json();  
     
      // On récupère la div gallery
@@ -183,7 +175,6 @@ navLinkContactLogin .addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
-
 // Fermer la modale login admin
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
@@ -200,12 +191,11 @@ window.addEventListener('click', (event) => {
 submitModalBtn.addEventListener('click', (event) => {
 
     event.preventDefault(); 
-
-    const url = "http://localhost:5678/api/users/login";
+    
     const username = document.querySelector('#username').value.trim();
     const password = document.querySelector('#password').value.trim();
   
-    fetch(url, {
+    fetch(`${API_URL}/api/users/login`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ email: username, password: password })
@@ -256,7 +246,7 @@ const modalTravaux = document.querySelector('#modalTravaux');
 const closeModalTravaux = document.querySelector('.closeModalTravaux');
 
 async function afficherTravauxAdmin() {
-  const response = await fetch("http://localhost:5678/api/works");
+  const response = await fetch(`${API_URL}/api/works`);
   const travaux = await response.json();
 
   adminGallery.innerHTML = '';
@@ -281,7 +271,7 @@ async function afficherTravauxAdmin() {
       const token = localStorage.getItem('token');
 
       try {
-        const res = await fetch(`http://localhost:5678/api/works/${travail.id}`, {
+        const res = await fetch(`${API_URL}/api/works/${travail.id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -363,7 +353,7 @@ async function chargerCategories() {
   select.appendChild(defaultOption);
 
   try {
-    const response = await fetch("http://localhost:5678/api/categories");
+    const response = await fetch(`${API_URL}/api/categories`);
     if (!response.ok) {
       throw new Error("Erreur lors du chargement des catégories");
     }
@@ -471,7 +461,7 @@ formAjout.addEventListener('submit', async (e) => {
   const token = localStorage.getItem('token');
 
   try {
-    const res = await fetch("http://localhost:5678/api/works", {
+    const res = await fetch(`${API_URL}/api/works`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
