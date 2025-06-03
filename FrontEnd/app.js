@@ -12,41 +12,85 @@ const API_URL = window.location.hostname.includes('github.io')
 // Utilisation de la gallery si présente 
 const galleryTravaux = document.querySelector('.gallery');
 
-async function recupererTravaux(categoryId = null) {  
+// async function recupererTravaux(categoryId = null) {  
 
-  console.log("Appel de recupererTravaux avec catégorie :", categoryId);
+//   console.log("Appel de recupererTravaux avec catégorie :", categoryId);
         
-    const requete = await fetch(`${API_URL}/api/works`);
-    const reponse = await requete.json();  
+//     const requete = await fetch(`${API_URL}/api/works`);
+//     const reponse = await requete.json();  
     
-     // On récupère la div gallery
-    const galleryTravaux = document.querySelector('.gallery');
+//      // On récupère la div gallery
+//     const galleryTravaux = document.querySelector('.gallery');
 
-    // On vide la gallery
+//     // On vide la gallery
+//     galleryTravaux.innerHTML = "";
+
+//     // Si on a un identifiant en argument (categoryId) on filtre reponse sinon on ne filtre rien et on affiche tout
+//     const filteredWorks = categoryId !== null ? reponse.filter( (e) => e.categoryId === categoryId) : reponse;  
+    
+//     // On fait une boucle for of pour itérer sur filteredWorks
+//     for (const work of filteredWorks) {        
+
+//         // On créé les éléments nécessaires
+//         const baliseFigure = document.createElement('figure');
+//         const baliseImg = document.createElement('img');
+//         const baliseFigcaption = document.createElement('figcaption');
+
+//         // On indique la src et le texte depuis l'API
+//         baliseImg.src = work.imageUrl; 
+//         baliseFigcaption.textContent = work.title; 
+
+//         // On insère la balise img et figcaption à la balise figure
+//         baliseFigure.appendChild(baliseImg);
+//         baliseFigure.appendChild(baliseFigcaption);
+
+//         // On insère la balise figure à la div gallery
+//         galleryTravaux.appendChild(baliseFigure);
+//     }
+// }
+
+async function recupererTravaux(categoryId = null) {
+    console.log("Appel de recupererTravaux avec catégorie :", categoryId);
+
+    const reponse = await fetchWorks();
+    const travauxFiltres = filtrerTravaux(reponse, categoryId);
+
+    afficherTravaux(travauxFiltres);
+}
+
+async function fetchWorks() {
+    const requete = await fetch(`${API_URL}/api/works`);
+    return await requete.json();
+}
+
+function filtrerTravaux(travaux, categoryId) {
+    return categoryId !== null
+        ? travaux.filter((e) => e.categoryId === categoryId)
+        : travaux;
+}
+
+function afficherTravaux(travaux) {
+    const galleryTravaux = document.querySelector('.gallery');
     galleryTravaux.innerHTML = "";
 
-    // Si on a un identifiant en argument (categoryId) on filtre reponse sinon on ne filtre rien et on affiche tout
-    const filteredWorks = categoryId !== null ? reponse.filter( (e) => e.categoryId === categoryId) : reponse;  
-    
-    // On fait une boucle for of pour itérer sur filteredWorks
-    for (const work of filteredWorks) {        
-
-        // On créé les éléments nécessaires
-        const baliseFigure = document.createElement('figure');
-        const baliseImg = document.createElement('img');
-        const baliseFigcaption = document.createElement('figcaption');
-
-        // On indique la src et le texte depuis l'API
-        baliseImg.src = work.imageUrl; 
-        baliseFigcaption.textContent = work.title; 
-
-        // On insère la balise img et figcaption à la balise figure
-        baliseFigure.appendChild(baliseImg);
-        baliseFigure.appendChild(baliseFigcaption);
-
-        // On insère la balise figure à la div gallery
-        galleryTravaux.appendChild(baliseFigure);
+    for (const work of travaux) {
+        const figure = creerElementFigure(work);
+        galleryTravaux.appendChild(figure);
     }
+}
+
+function creerElementFigure(work) {
+    const baliseFigure = document.createElement('figure');
+    const baliseImg = document.createElement('img');
+    const baliseFigcaption = document.createElement('figcaption');
+
+    baliseImg.src = work.imageUrl;
+    baliseFigcaption.textContent = work.title;
+
+    baliseFigure.appendChild(baliseImg);
+    baliseFigure.appendChild(baliseFigcaption);
+
+    return baliseFigure;
 }
 //#endregion
 
