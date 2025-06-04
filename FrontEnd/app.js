@@ -1,5 +1,9 @@
 //#region API URL RENDER OU LOCALHOST
 
+// const API_URL = window.location.hostname.includes('github.io')
+//   ? "https://portfolio-architecte-sophie-bluel-h7hp.onrender.com"
+//   : "http://localhost:5678";
+
 const API_URL = window.location.hostname.includes('github.io')
   ? "https://portfolio-architecte-sophie-bluel-h7hp.onrender.com"
   : "http://localhost:5678";
@@ -159,125 +163,132 @@ const afficheBtnFiltrage = document.querySelector('.btn-filtrage');
 const navLinkProjetsLogin = document.querySelector('#navLinkProjetsLogin');
 const navLinkContactLogin = document.querySelector('#navLinkContactLogin');
 let isLoggedIn = !!localStorage.getItem('token'); // double inversion renvoi true si token présent et false si non présent
+const token = localStorage.getItem("token");
+const loginBtn = document.querySelector('#loginBtn');
 
 // Au premier chargement de la page
 document.addEventListener("DOMContentLoaded", () => {
 
-  const token = localStorage.getItem("token");
-
-  const loginBtn = document.querySelector('.openModal');
 
   if (token) {
     // Utilisateur connecté : on montre "Logout" et on masque les filtres
     loginBtn.textContent = "Logout";
+    loginBtn.href = "#"; // évite navigation
     afficheBtnFiltrage.style.display = "none";
+    divBoutonModifier.style.display = "inline";
+
+  //     // Re-attache l'écouteur ici
+  // divBoutonModifier.addEventListener('click', () => {
+  //   document.querySelector('#modalTravaux').style.display = 'block';
+  //   afficherTravauxAdmin();
+  // });
+
+    loginBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    window.location.reload();
+    });
+
+
   } else {
     // Utilisateur non connecté : on montre "Login" on affiche les filtres et bouton tous avec class active pour le fond vert
     loginBtn.textContent = "Login";
+    loginBtn.href = "./FrontEnd/assets/login.html";
     afficheBtnFiltrage.style.display = "flex";
     divBoutonModifier.style.display = "none";
     activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
   }
+
+    // Active filtre "Tous" par défaut
+  activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
 
   // Gestion du clic sur login/logout
-  loginBtn.addEventListener("click", (e) => {
+//   loginBtn.addEventListener("click", (e) => {
 
-    e.preventDefault();
+//     e.preventDefault();
 
-    const token = localStorage.getItem("token");
+//     const token = localStorage.getItem("token");
 
-    if (token) {
-    // Déconnexion
-    localStorage.removeItem("token");
-    isLoggedIn = false;
-    loginBtn.textContent = "Login";
-    afficheBtnFiltrage.style.display = "flex";
-    // Réaffiche individuellement tous les boutons de filtre
-    TousLesBoutonsFiltre.forEach(element => {
-      element.style.display = 'inline-block';
-    });
-    divBoutonModifier.style.display = "none";
-    activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
-    recupererTravaux();
-  } else {
-    // Affichage modale login
-    modal.style.display = "block";
-    loginModal.style.fontWeight = "bold";
-  }
-  });
-});
-
-// Click sur Projets dans la modale Login
-navLinkProjetsLogin .addEventListener('click', () => {
-  // On ferme la modale au click pour permettre d'aller sur l'ancre Mes Projets
-    modal.style.display = 'none';
-});
-
-// Click sur Projets dans la modale Login
-navLinkContactLogin .addEventListener('click', () => {
-  // On ferme la modale au click pour permettre d'aller sur l'ancre Contact
-    modal.style.display = 'none';
-});
+//     if (token) {
+//     // Déconnexion
+//     localStorage.removeItem("token");
+//     isLoggedIn = false;
+//     loginBtn.textContent = "Login";
+//     afficheBtnFiltrage.style.display = "flex";
+//     // Réaffiche individuellement tous les boutons de filtre
+//     TousLesBoutonsFiltre.forEach(element => {
+//       element.style.display = 'inline-block';
+//     });
+//     divBoutonModifier.style.display = "none";
+//     activerBouton(TousLesBoutonsFiltre, btnFiltreTous);
+//     recupererTravaux();
+//   } else {
+//     // Affichage modale login
+//     modal.style.display = "block";
+//     loginModal.style.fontWeight = "bold";
+//   }
+//   });
+// });
 
 // Fermer la modale login admin
-closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
+// closeBtn.addEventListener('click', () => {
+//     modal.style.display = 'none';
+// });
 
 // Fermer la modale login admin si on click à l'extérieur
-window.addEventListener('click', (event) => {
-    if (event.target == modal) {
-    modal.style.display = 'none';
-  }
-});
+// window.addEventListener('click', (event) => {
+//     if (event.target == modal) {
+//     modal.style.display = 'none';
+//   }
+// });
 
 // Bouton Submit 
-submitModalBtn.addEventListener('click', (event) => {
+// submitModalBtn.addEventListener('click', (event) => {
 
-    event.preventDefault(); 
+//     event.preventDefault(); 
     
-    const username = document.querySelector('#username').value.trim();
-    const password = document.querySelector('#password').value.trim();
+//     const username = document.querySelector('#username').value.trim();
+//     const password = document.querySelector('#password').value.trim();
   
-    fetch(`${API_URL}/api/users/login`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email: username, password: password })
-    })
-    .then(response => {
+//     fetch(`${API_URL}/api/users/login`, {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify({ email: username, password: password })
+//     })
+//     .then(response => {
 
-        if( ! response.ok){
-            throw new Error('Echec de la connexion')
-        }      
-        return response.json()        
-    })
-    .then(data => {
-        // Traiter la réponse
+//         if( ! response.ok){
+//             throw new Error('Echec de la connexion')
+//         }      
+//         return response.json()        
+//     })
+//     .then(data => {
+//         // Traiter la réponse
 
-        // Stocker le Token dans le local Storage
-        localStorage.setItem('token', data.token);
-        isLoggedIn = true;
-        openBtn.textContent = 'Logout';
+//         // Stocker le Token dans le local Storage
+//         localStorage.setItem('token', data.token);
+//         isLoggedIn = true;
+//         openBtn.textContent = 'Logout';
         
-        // Fermer la modale 
-        modal.style.display = 'none';
+//         // Fermer la modale 
+//         modal.style.display = 'none';
         
-        // Les boutons de filtres doivent disparaitre
-        TousLesBoutonsFiltre.forEach(element => {
-            element.style.display = 'none';
-        });
+//         // Les boutons de filtres doivent disparaitre
+//         TousLesBoutonsFiltre.forEach(element => {
+//             element.style.display = 'none';
+//         });
 
-        // On doit faire apparaitre le logo modifier et le texte
-        divBoutonModifier.style.display = 'inline';
+//         // On doit faire apparaitre le logo modifier et le texte
+//         divBoutonModifier.style.display = 'inline';
 
 
-        console.log(`Connecté avec succès`);  
-    })  
-    .catch(error =>{
-        console.error('Erreur : ', error);
-        alert("Identifiants incorrects ou erreur serveur");
-    })
-});
+//         console.log(`Connecté avec succès`);  
+//     })  
+//     .catch(error =>{
+//         console.error('Erreur : ', error);
+//         alert("Identifiants incorrects ou erreur serveur");
+//     })
+// });
 
 //#endregion
 
@@ -370,6 +381,7 @@ closeModalTravaux.addEventListener('click', () => {
 
 //#region Modale Ajout de Travaux
 
+
 const ajoutPhotoBtn = document.querySelector('.addPhotoBtn');
 const closeModalAjoutTravaux = document.querySelector('.closeModalAjoutTravaux');
 const LeftArrowModalAjoutTravaux = document.querySelector('.LeftArrowModalAjoutTravaux');
@@ -378,10 +390,32 @@ const inputFile = document.getElementById('photoFile');
 const inputTextPhoto = document.getElementById('photoTitle');
 const previewImage = document.getElementById('imagePreview');
 const formAjout = document.getElementById('formAjoutTravail');
+const boutonValider = formAjout.querySelector('input[type="submit"]');
 const logoImage = document.querySelector('#logoImage');
 const resetImageBtn = document.getElementById("resetImageBtn");
 const divAddPhotoBtnAjoutTravaux = document.querySelector('.addPhotoBtnAjoutTravaux');
 const textAjoutPhoto = document.querySelector('#textAjoutPhoto');
+
+function verifierChampsAjout() {
+  const imageOK = inputFile.files.length > 0;
+  const titreOK = inputTextPhoto.value.trim() !== "";
+  const categorieOK = document.getElementById('photoCategory').value !== "";
+
+  if (imageOK && titreOK && categorieOK) {
+    boutonValider.disabled = false;
+    boutonValider.style.opacity = 1;
+    boutonValider.style.cursor = 'pointer';
+  } else {
+    boutonValider.disabled = true;
+    boutonValider.style.opacity = 0.5;
+    boutonValider.style.cursor = 'not-allowed';
+  }
+}
+
+inputFile.addEventListener('change', verifierChampsAjout);
+inputTextPhoto.addEventListener('input', verifierChampsAjout);
+document.getElementById('photoCategory').addEventListener('change', verifierChampsAjout);
+
 
 async function chargerCategories() {
   const select = document.getElementById("photoCategory");
@@ -416,7 +450,7 @@ async function chargerCategories() {
   }
 }
 
-
+verifierChampsAjout();
 
 
 ajoutPhotoBtn.addEventListener('click', () => {
@@ -534,5 +568,6 @@ formAjout.addEventListener('submit', async (e) => {
   }
 });
 
+});
 
 //#endregion

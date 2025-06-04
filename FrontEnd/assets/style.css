@@ -266,71 +266,96 @@ footer nav ul {
 }
 
 
-/* FENETRE MODALE LOGIN */
+/* PAGE LOGIN */
 
-#modal > *{
-	text-align: center;
+#titreLogin{
+	text-decoration: none;
 }
 
-.closeModal {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  font-size: 40px;
+.navLinkLogin {
+	font-weight: bold;
+}
+
+.main-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
+  padding: 40px 20px;
+  position: relative;
+}
+
+#login h2 {
+  font-size: px;
+  margin-bottom: 20px;
+}
+
+#login form {
+  display: flex;
+  flex-direction: column;
+}
+
+#login label {
+  text-align: left;	
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+#login input[type="email"],
+#login input[type="password"] {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+  background-color: white;
+  width: 379px;
+}
+
+#login input[type="email"]{
+  margin-bottom: 20px;	
+}
+
+#login input[type="submit"] {
+  background-color: #1D6154;
+  width: 200px;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#login input[type="submit"]:hover {
+  background-color: #0E2F28;
+}
+
+.mdpOublie {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #1D6154;
+  text-decoration: none;
+  text-align: center;
+}
+
+.mdpOublie:hover {
+  text-decoration: underline;
+}
+
+#mentionsLegalesLogin{
+	position: absolute;
+	bottom: 30px;
+	right:30px;
   cursor: pointer;
 }
 
-.closeModal:hover{
-	color: rgba(0, 0, 0, 0.498);
-}
-
-#modal form {
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
-	width: 50%;
-	margin: auto;
-}
-
-#modal input{
-	width: 100%;
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
 
 
-#modal label{
-	text-align: left;
-	margin: 2em 0 1em 0;
-}
-
-.modal{
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.9); /* fond sombre */
-}
-
-.modal-content {
-	background-color: #FFFEF8;
-	margin: 10% auto;
-	padding: 30px;
-	height: auto;
-	width: 70%;
-	border-radius: 8px;
-	position: relative;
-}
-
-#modal .formModal input[type="submit"]{
- width: 50%;
-}
 
 /* Bouton Modale Modifier  */
 
@@ -358,6 +383,19 @@ footer nav ul {
 }
 
 /* MODALE SUPPRESSION TRAVAUX */
+
+#modalTravaux {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* fond assombri */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* assure qu’elle passe devant */
+}
 
 #titreModalTravaux{
 	display: flex;

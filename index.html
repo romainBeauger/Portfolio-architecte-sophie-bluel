@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="crossorigin="anonymous"referrerpolicy="no-referrer"> 
 	
 	<link rel="stylesheet" href="./FrontEnd/assets/style.css">
+
 	<script src="./FrontEnd/app.js" defer></script>
 </head>
 <body>
@@ -22,7 +23,7 @@
 		<ul>
 			<li><a class="navLink" href="#portfolio">Projets</a></li>
 			<li><a class="navLink" href="#contact">Contact</a></li>
-			<li><a class="navLink openModal" href="#">Login</a></li>
+			<li><a class="navLink" id="loginBtn" href="./FrontEnd/assets/login.html">Login</a></li>
 			<li><a href="http://instagram.com" target="_blank" rel="noopener noreferrer"><img src="./FrontEnd/assets/icons/instagram.png" alt="Instagram"></a></li>			
 		</ul>
 	</nav>
@@ -81,48 +82,6 @@
 		</form>
 	</section>
 
-<!-- FENETRE MODALE LOGIN -->
-	 <div id="modal" class="modal">
-		<div class="modal-content">
-
-			<header>
-				<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-
-				<nav>
-					<ul>
-						<li><a class="navLink" id="navLinkProjetsLogin" href="#portfolio">Projets</a></li>
-						<li><a class="navLink" id="navLinkContactLogin" href="#contact">Contact</a></li>
-						<li><a class="navLink loginModal" href="#">Login</a></li>
-						<li><a href="http://instagram.com" target="_blank" rel="noopener noreferrer"><img src="./FrontEnd/assets/icons/instagram.png" alt="Instagram"></a></li>			
-					</ul>
-				</nav>
-
-			</header>
-
-			<span class="closeModal">&times;</span>
-
-			<h2>Log in</h2>
-
-			<form class="formModal">
-				<label for="username">Nom d'utilisateur</label>
-				<input type="text" id="username" autocomplete="username" required>
-
-				<label for="password">Mot de passe</label>
-				<input type="password" id="password" autocomplete="current-password" required>
-
-				<input id="submitModalBtn" type="submit" value="Se connecter">
-			</form>
-
-			<footer>
-				<nav>
-					<ul>
-						<li id="textFooterModal">Mentions Légales</li>
-					</ul>
-				</nav>
-			</footer>
-		</div>
-  	</div>	
-
 <!-- MODALE SUPRESSION TRAVAUX -->
 
 <div id="modalTravaux" class="modal" style="display: none">
@@ -163,7 +122,7 @@
 
 	  <div class="addPhotoBtnAjoutTravaux">
 		<label for="photoFile">+ Ajouter photo</label>
-		<input type="file" id="photoFile" name="image" accept="image/*">
+		<input type="file" id="photoFile" name="image" accept="image/*" >
 	  </div>
 
 	  <p id="textAjoutPhoto">jpg, png : 4mo max</p>
@@ -183,7 +142,7 @@
 
 	  <div id="separationLine"></div>
 
-      <input type="submit" value="Valider">
+      <input type="submit" value="Valider" disabled>
     </form>
 
   </div>
